@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import addIncomeForm from '../components/AddIncomeForm.vue'
-import totalBalance from '../components/TotalBalance.vue'
+import addIncomeForm from '../components/Balance/AddIncomeForm.vue'
+import totalBalance from '../components/Balance/TotalBalance.vue'
 
 export default {
   components: {

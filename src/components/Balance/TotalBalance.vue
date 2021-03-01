@@ -5,7 +5,6 @@
 
 <script>
 import firebase from '/firebase/firestore.js'
-import addIncomeForm from '../components/AddIncomeForm.vue'
 
 const db = firebase.firestore()
 const balanceRef = db.collection("Balance").doc("balance")
