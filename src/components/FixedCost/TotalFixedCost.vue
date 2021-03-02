@@ -6,6 +6,8 @@
       .fixedcost-lists
         ul(v-for="(fixedCostList, key) in fixedCostLists" :key="key")
           li {{ fixedCostList.name }} : ¥{{ fixedCostList.amount }}
+            .delete-btn
+              button(@click="deleteFixedCost(key)") 削除
 </template>
 
 <script>
@@ -35,6 +37,14 @@ export default {
       }, 0)
       this.totalFixedCost += totalVal
     })
+  },
+  methods: {
+    deleteFixedCost(key) {
+      fixedCostRef.doc(key).delete()
+      .then(docRef => {
+        alert("削除しました")
+      })
+    }
   }
 }
 </script>
