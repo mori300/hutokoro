@@ -2,8 +2,12 @@
   #home
     .form-wrapper
       .container 
+        h2 あなたの残高
         totalBalance
         addIncomeForm
+
+    div
+      router-link(to="/fixedcost") 固定費
 </template>
 
 <script>
