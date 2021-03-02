@@ -1,18 +1,18 @@
 <template lang="pug">
   #add-fixedcost-form
-    .fixedcost-wrapper
-      .container
-        input(type="text" placeholder="固定費名を入力" v-model="newFixedCostName")
-        input(type="number" placeholder="金額を入力" v-model.number="newFixedCost")
-        |
-        br
-        button(@click="addFixedCost()") 追加
+    .add-form
+      input(type="text" placeholder="固定費名を入力" v-model="newFixedCostName")
+      input(type="number" placeholder="金額を入力" v-model.number="newFixedCost")
+      |
+      br
+      button(@click="addFixedCost()") 追加
 </template>
 
 <script>
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
+
 export default {
   data() {
     return {
@@ -35,7 +35,8 @@ export default {
 
       db.collection("FixedCost").add({
         name: this.newFixedCostName,
-        amount: this.newFixedCost
+        amount: this.newFixedCost,
+        editToggle: false
       })
       .then(docRef => {
         alert("固定費を追加しました")
