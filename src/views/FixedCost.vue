@@ -2,8 +2,13 @@
   #fixedcost
     .fixedcost-wrapper
       .container
+        h2 固定費総額
         totalFixedCost
+        h2 固定費の追加
         addFixedCostForm
+
+    div
+      router-link(to="/") 残高
 </template>
 
 <script>

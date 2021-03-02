@@ -4,32 +4,30 @@
 
     .lists-wrapper
       .fixedcost-lists
-        ul(v-for="(fixedCostList, key) in fixedCostLists" :key="key")
-          li {{ fixedCostList.name }} : ¥{{ fixedCostList.amount }}
+        fixedCostLists
 </template>
 
 <script>
 import firebase from '/firebase/firestore.js'
+import fixedCostLists from './FixedCostLists.vue'
 
 const db = firebase.firestore()
 const fixedCostRef = db.collection("FixedCost")
 export default {
+  components: {
+    fixedCostLists
+  },
   data() {
     return {
       totalFixedCost: null,
-      fixedCostLists: []
     }
   },
   created() {
     fixedCostRef.get().then(querySnapshot => {
-      const obj = {}
       const val = []
       querySnapshot.forEach(doc => {
-        obj[doc.id] = doc.data()
         val[doc.data().amount] = doc.data()
       })
-      this.fixedCostLists = obj
-
       const totalVal = val.reduce((sum, val) => {
         return sum + val.amount
       }, 0)
@@ -38,12 +36,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .lists-wrapper {
-    ul {
-      padding: 0px;
-      list-style: none;
-    }
-  }
-</style>
