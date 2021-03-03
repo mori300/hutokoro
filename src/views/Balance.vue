@@ -5,6 +5,7 @@
         h2 あなたの残高
         totalBalance
         addIncomeForm
+        addExtraIncomeForm
 
     div
       router-link(to="/fixedcost") 固定費
@@ -12,12 +13,14 @@
 
 <script>
 import addIncomeForm from '../components/Balance/AddIncomeForm.vue'
+import addExtraIncomeForm from '../components/Balance/AddExtraIncomeForm.vue'
 import totalBalance from '../components/Balance/TotalBalance.vue'
 
 export default {
   components: {
     totalBalance,
-    addIncomeForm
+    addIncomeForm,
+    addExtraIncomeForm
   }
 }
 </script>
