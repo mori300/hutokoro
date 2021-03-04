@@ -1,12 +1,22 @@
 <template lang="pug">
   #add-income-form
     .show-toggle-btn
-      button(@click="showToggle()") 給料を登録する
+      button(@click="showToggle()") 給料を登録
 
-    .salary-form(v-show="showForm")
-      input(type="number" placeholder="給料を入力" v-model.number="newIncome")
-      .add-btn
-        button(@click="addIncome()") 追加
+    #popup-menu(v-show="showForm")
+      #content
+        h3 給料を追加
+        p 固定費の
+          span(class="fixed-cost")  ¥{{ this.totalFixedCost }}
+          | 
+          br
+          | 差し引かれます
+        .salary-form
+          input(type="number" placeholder="給料を入力" v-model.number="newIncome")
+          .add-btn
+            button(@click="addIncome()") 追加
+          .close-btn
+            button(@click="showToggle()") 閉じる
 </template>
 
 <script>
@@ -50,9 +60,9 @@ const fixedCostRef = db.collection("FixedCost")
         .then(docRef => {
           const fixedcost = this.totalFixedCost
           alert("追加しました")
-          this.showForm = false
-          return this.newIncome = null
         })
+        this.newIncome = null
+        this.showForm = false
       }
     }
   }
@@ -60,36 +70,65 @@ const fixedCostRef = db.collection("FixedCost")
 
 <style lang="scss" scoped>
   #add-income-form {
-    vertical-align: top;
     display: inline-block;
-    .show-toggle-btn {
-      margin: 20px;
-      button {
-        width: 150px;
-        height: 30px;
-        border: 1px solid black;
-        border-radius: 3px;
-        background-color: white;
-        box-shadow: 2px 2px 2px gray;
-      }
-    }
-    input {
-      width: 200px;
-      height: 25px;
-      padding: 5px;
-      margin-right: 10px;
-      border-radius: 5px;
+    .show-toggle-btn button{
+      margin-right: 20px;
+      width: 130px;
+      height: 50px;
+      font-size: 16px;
       border: 1px solid black;
+      border-radius: 8px;
+      background-color: white;
     }
-    .add-btn {
-      margin-top: 10px;
-      button {
-        width: 50px;
-        height: 30px;
-        border: 1px solid black;
-        border-radius: 3px;
-        background-color: white;
-        box-shadow: 2px 2px 2px gray;
+    #popup-menu {
+      z-index: 1;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      #content {
+        z-index: 2;
+        width: 70%;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: #FFF;
+        .fixed-cost {
+          font-weight: bold;
+          font-size: 20px;
+        }
+        .salary-form {
+          input {
+            width: 200px;
+            height: 25px;
+            padding: 5px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid black;
+          }
+        }
+        .add-btn button{
+          margin-top: 10px;
+          width: 100px;
+          height: 40px;
+          font-size: 16px;
+          border: 1px solid black;
+          border-radius: 3px;
+          background-color: white;
+        }
+        .close-btn button{
+          margin-top: 50px;
+          width: 200px;
+          height: 30px;
+          font-size: 16px;
+          border: 1px solid black;
+          border-radius: 3px;
+          background-color: white;
+        }
       }
     } 
   }

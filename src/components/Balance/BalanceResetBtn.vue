@@ -37,12 +37,12 @@ export default {
 
 <style lang="scss" scoped>
   #balance-reset-btn {
-    
     button {
       height: 30px;
+      width: 100px;
       border: 1px solid black;
       border-radius: 5px;
-      background-color: white;
+      background-color: #FFF;
     }
   }
 </style>
