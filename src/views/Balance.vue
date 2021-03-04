@@ -6,9 +6,6 @@
         totalBalance
         addSalaryForm
         addExtraIncomeForm
-
-    div
-      router-link(to="/fixedcost") 固定費
 </template>
 
 <script>
@@ -26,7 +23,7 @@ export default {
 </script>
 
 <style lang="scss">
-.form-wrapper {
-  margin-top: 100px;
-}
+  .form-wrapper {
+    margin-top: 50px;
+  }
 </style>

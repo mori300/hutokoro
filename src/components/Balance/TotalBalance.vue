@@ -1,9 +1,9 @@
 <template lang="pug">
   #total-balance
     .total-balance(v-if="this.totalBalance.totalBalance >= 0")
-      h1 ¥{{ this.totalBalance.totalBalance }}
+      p ¥{{ this.totalBalance.totalBalance }}
     .total-balance(v-else v-bind:style="{color: totalBalanceColor}")
-      h1 ¥{{ this.totalBalance.totalBalance }}
+      p ¥{{ this.totalBalance.totalBalance }}
     
     .balance-reset-btn
       balanceResetBtn
@@ -35,6 +35,12 @@ export default {
 
 <style lang="scss" scoped>
   #total-balance {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+    p {
+      font-size: 50px;
+      font-weight: bold;
+      margin: 0px;
+      padding-bottom: 10px;
+    }
   }
 </style>

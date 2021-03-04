@@ -2,23 +2,30 @@
   #fixedcost
     .fixedcost-wrapper
       .container
-        h2 固定費総額
-        totalFixedCost
-        h2 固定費の追加
-        addFixedCostForm
-
-    div
-      router-link(to="/") 残高
+        .total-fixedcost-name
+          totalFixedCost
+          addFixedCostForm
+    
+    .fixedcost-lists
+      fixedCostLists
 </template>
 
 <script>
 import addFixedCostForm from '../components/FixedCost/AddFixedCostForm.vue'
 import totalFixedCost from '../components/FixedCost/TotalFixedCost.vue'
+import fixedCostLists from '../components/FixedCost//FixedCostLists.vue'
 
 export default {
   components: {
     addFixedCostForm,
-    totalFixedCost
+    totalFixedCost,
+    fixedCostLists
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  #fixedcost {
+    margin-top: 50px;
+  }
+</style>

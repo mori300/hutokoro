@@ -1,5 +1,8 @@
 <template lang="pug">
   #app
+    #nav
+      router-link(to="/") ホーム |
+      router-link(to="/fixedcost")  固定費
     router-view
 </template>
 
@@ -10,17 +13,18 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  padding-top: 100px;
 }
 
 #nav {
-  padding: 30px;
-
   a {
     font-weight: bold;
     color: #2c3e50;
-
+    font-size: 18px;
+    text-decoration: none;
     &.router-link-exact-active {
       color: #42b983;
+      font-size: 22px;
     }
   }
 }
