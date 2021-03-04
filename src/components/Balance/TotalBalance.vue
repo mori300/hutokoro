@@ -1,7 +1,12 @@
 <template lang="pug">
   #total-balance
-    h1 ¥{{ this.totalBalance.totalBalance }}
-    balanceResetBtn
+    .total-balance(v-if="this.totalBalance.totalBalance >= 0")
+      h1 ¥{{ this.totalBalance.totalBalance }}
+    .total-balance(v-else v-bind:style="{color: totalBalanceColor}")
+      h1 ¥{{ this.totalBalance.totalBalance }}
+    
+    .balance-reset-btn
+      balanceResetBtn
 </template>
 
 <script>
@@ -16,7 +21,8 @@ export default {
   },
   data() {
     return {
-      totalBalance: {}
+      totalBalance: {},
+      totalBalanceColor: "red"
     }
   },
   created() {
