@@ -4,7 +4,7 @@
       .container 
         h2 あなたの残高
         totalBalance
-        addIncomeForm
+        addSalaryForm
         addExtraIncomeForm
 
     div
@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import addIncomeForm from '../components/Balance/AddIncomeForm.vue'
+import addSalaryForm from '../components/Balance/AddSalaryForm.vue'
 import addExtraIncomeForm from '../components/Balance/AddExtraIncomeForm.vue'
 import totalBalance from '../components/Balance/TotalBalance.vue'
 
 export default {
   components: {
     totalBalance,
-    addIncomeForm,
+    addSalaryForm,
     addExtraIncomeForm
   }
 }
