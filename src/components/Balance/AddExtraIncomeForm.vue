@@ -107,4 +107,19 @@ export default {
       }
     } 
   }
+
+  @media (min-width: 769px) {
+    #add-extra-income-form {
+      display: inline-block;
+      .show-toggle-btn button{
+        width: 130px;
+        height: 50px;
+        font-size: 16px;
+        margin: 30px;
+        border: 1px solid black;
+        border-radius: 8px;
+        background-color: white;
+      }
+    }
+  }
 </style>
