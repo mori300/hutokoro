@@ -87,6 +87,10 @@ export default {
 
 <style lang="scss" scoped>
   #fixedcost-lists {
+    width: 70%;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 8px;
     ul {
       padding: 0px;
       list-style: none;
@@ -176,6 +180,15 @@ export default {
           }
         }
       }
+    }
+  }
+
+  @media (min-width: 769px) {
+    #fixedcost-lists {
+      width: 40%;
+      margin: auto;
+      border: 1px solid black;
+      border-radius: 8px;
     }
   }
 </style>

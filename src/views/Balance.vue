@@ -6,18 +6,21 @@
         totalBalance
         addSalaryForm
         addExtraIncomeForm
+        subtractExpensesForm
 </template>
 
 <script>
+import totalBalance from '../components/Balance/TotalBalance.vue'
 import addSalaryForm from '../components/Balance/AddSalaryForm.vue'
 import addExtraIncomeForm from '../components/Balance/AddExtraIncomeForm.vue'
-import totalBalance from '../components/Balance/TotalBalance.vue'
+import subtractExpensesForm from '../components/Balance/SubtractExpensesForm.vue'
 
 export default {
   components: {
     totalBalance,
     addSalaryForm,
-    addExtraIncomeForm
+    addExtraIncomeForm,
+    subtractExpensesForm
   }
 }
 </script>

@@ -1,15 +1,15 @@
 <template lang="pug">
-  #add-extra-income-form
+  #subtract-expenses-form
     .show-toggle-btn
-      button(@click="showToggle()") 臨時収入を登録
+      button(@click="showToggle()") 支出を登録
     
     #popup-menu(v-show="showForm")
       #content
-        h3 臨時収入を追加
-        .add-extra-income-form
-          input(type="number" placeholder="臨時収入を入力" v-model.number="newExtraIncome")
-          .add-btn
-            button(@click="addExtraIncome()") 追加
+        h3 支出を追加
+        .subtract-expenses-form
+          input(type="number" placeholder="支出を入力" v-model.number="newExpenses")
+          .subtract-btn
+            button(@click="subtractExpenses()") 登録
           .close-btn
             button(@click="showToggle()") 閉じる
 </template>
@@ -21,39 +21,44 @@ const balanceRef = db.collection("Balance").doc("balance")
 export default {
   data() {
     return {
-      newExtraIncome: null,
+      newExpenses: null,
+      totalBalance: null,
       showForm: false
     }
+  },
+  created() {
+    balanceRef.onSnapshot(doc => {
+      this.totalBalance = doc.data()
+    })
   },
   methods: {
     showToggle() {
       this.showForm = !this.showForm
     },
-    addExtraIncome() {
-      if ( this.newExtraIncome === null ) { 
+    subtractExpenses() {
+      if ( this.newExpenses === null ) { 
         return alert("金額を入力してください")
       }
       
       balanceRef.update({
-        totalBalance: firebase.firestore.FieldValue.increment(this.newExtraIncome)
+        totalBalance: firebase.firestore.FieldValue.increment(-this.newExpenses)
       })
       .then(docRef => {
-        alert("追加しました")
-        this.showForm = false
-        return this.newExtraIncome = null
+        alert("登録しました")
       })
+      this.showForm = false
+      this.newExpenses = null
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  #add-extra-income-form {
+  #subtract-expenses-form {
     .show-toggle-btn button{
       width: 130px;
       height: 50px;
       font-size: 16px;
-      margin-bottom: 30px;
       border: 1px solid black;
       border-radius: 8px;
       background-color: white;
@@ -75,7 +80,7 @@ export default {
         padding: 30px;
         background: #FFF;
         border-radius: 10px;
-        .add-extra-income-form {
+        .subtract-expenses-form {
           input {
             width: 200px;
             height: 25px;
@@ -86,7 +91,7 @@ export default {
             background-color: #FFF;
           }
         }
-        .add-btn button{
+        .subtract-btn button{
           margin-top: 10px;
             width: 100px;
             height: 40px;
@@ -108,18 +113,18 @@ export default {
     } 
   }
 
-  @media (min-width: 769px) {
-    #add-extra-income-form {
-      display: inline-block;
-      .show-toggle-btn button{
-        width: 130px;
-        height: 50px;
-        font-size: 16px;
-        margin: 30px;
-        border: 1px solid black;
-        border-radius: 8px;
-        background-color: white;
-      }
+@media (min-width: 769px) {
+  #subtract-expenses-form {
+    display: inline-block;
+    .show-toggle-btn button{
+      width: 130px;
+      height: 50px;
+      font-size: 16px;
+      margin: 30px;
+      border: 1px solid black;
+      border-radius: 8px;
+      background-color: white;
     }
   }
+}
 </style>

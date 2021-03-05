@@ -1,5 +1,5 @@
 <template lang="pug">
-  #add-income-form
+  #add-salary-form
     .show-toggle-btn
       button(@click="showToggle()") 給料を登録
 
@@ -69,13 +69,12 @@ const fixedCostRef = db.collection("FixedCost")
 </script>
 
 <style lang="scss" scoped>
-  #add-income-form {
-    display: inline-block;
+  #add-salary-form {
     .show-toggle-btn button{
-      margin-right: 20px;
       width: 130px;
       height: 50px;
       font-size: 16px;
+      margin-bottom: 30px;
       border: 1px solid black;
       border-radius: 8px;
       background-color: white;
@@ -132,4 +131,19 @@ const fixedCostRef = db.collection("FixedCost")
       }
     } 
   }
+
+@media (min-width: 769px) {
+  #add-salary-form {
+    display: inline-block;
+    .show-toggle-btn button{
+      width: 130px;
+      height: 50px;
+      font-size: 16px;
+      margin: 30px;
+      border: 1px solid black;
+      border-radius: 8px;
+      background-color: white;
+    }
+  }
+}
 </style>
