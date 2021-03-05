@@ -70,12 +70,11 @@ const fixedCostRef = db.collection("FixedCost")
 
 <style lang="scss" scoped>
   #add-income-form {
-    display: inline-block;
     .show-toggle-btn button{
-      margin-right: 20px;
       width: 130px;
       height: 50px;
       font-size: 16px;
+      margin-bottom: 30px;
       border: 1px solid black;
       border-radius: 8px;
       background-color: white;
