@@ -1,11 +1,11 @@
 <template lang="pug">
-  #balance-reset-btn
-    .reset-btn(v-if="this.totalBalance.totalBalance != 0")
-      button(@click="balanceResetBtn()") 残高リセット
+  #balance-reset-btn(v-if="this.totalBalance.totalBalance != 0")
+    button(@click="balanceResetBtn()") 残高リセット
 </template>
 
 <script>
 import firebase from '/firebase/firestore.js'
+
 const db = firebase.firestore()
 const balanceRef = db.collection("Balance").doc("balance")
 export default {
@@ -37,6 +37,7 @@ export default {
 
 <style lang="scss" scoped>
   #balance-reset-btn {
+    margin-bottom: 50px;
     button {
       height: 30px;
       width: 100px;
