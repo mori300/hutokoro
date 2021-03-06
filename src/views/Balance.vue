@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import pageTitle from '../components/Balance/PageTitle.vue'
+import pageTitle from '../components/Balance/PageTitle/PageTitle.vue'
 import totalBalance from '../components/Balance/TotalBalance/TotalBalance.vue'
-import balanceResetBtn from '../components/Balance/BalanceResetBtn.vue'
+import balanceResetBtn from '../components/Balance/TotalBalanceResetBtn/BalanceResetBtn.vue'
 import addSalaryForm from '../components/Balance/Salary/AddSalaryForm.vue'
 import addExtraIncomeForm from '../components/Balance/ExtraIncome/AddExtraIncomeForm.vue'
 import subtractExpensesForm from '../components/Balance/Expenses/SubtractExpensesForm.vue'
