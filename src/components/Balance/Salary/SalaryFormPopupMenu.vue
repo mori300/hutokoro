@@ -74,9 +74,6 @@ export default {
       this.newIncome = null
       this.$emit('toggle', this.toggleWatch = !this.toggleWatch)
     },
-    showToggle() {
-      this.$emit('toggle', this.toggleWatch = !this.toggleWatch)
-    }
   }
 }
 </script>
