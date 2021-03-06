@@ -12,7 +12,7 @@
 import pageTitle from '../components/Balance/PageTitle.vue'
 import totalBalance from '../components/Balance/TotalBalance.vue'
 import addSalaryForm from '../components/Balance/AddSalaryForm.vue'
-import addExtraIncomeForm from '../components/Balance/AddExtraIncomeForm.vue'
+import addExtraIncomeForm from '../components/Balance/ExtraIncome/AddExtraIncomeForm.vue'
 import subtractExpensesForm from '../components/Balance/SubtractExpensesForm.vue'
 
 export default {
