@@ -1,23 +1,27 @@
 <template lang="pug">
-  #home
-    .form-wrapper
-      .container 
-        h2 あなたの残高
-        totalBalance
-        addSalaryForm
-        addExtraIncomeForm
-        subtractExpensesForm
+  #balance
+    .container 
+      pageTitle
+      totalBalance
+      balanceResetBtn
+      addSalaryForm
+      addExtraIncomeForm
+      subtractExpensesForm
 </template>
 
 <script>
-import totalBalance from '../components/Balance/TotalBalance.vue'
-import addSalaryForm from '../components/Balance/AddSalaryForm.vue'
-import addExtraIncomeForm from '../components/Balance/AddExtraIncomeForm.vue'
-import subtractExpensesForm from '../components/Balance/SubtractExpensesForm.vue'
+import pageTitle from '../components/Balance/PageTitle/PageTitle.vue'
+import totalBalance from '../components/Balance/TotalBalance/TotalBalance.vue'
+import balanceResetBtn from '../components/Balance/TotalBalanceResetBtn/BalanceResetBtn.vue'
+import addSalaryForm from '../components/Balance/Salary/AddSalaryForm.vue'
+import addExtraIncomeForm from '../components/Balance/ExtraIncome/AddExtraIncomeForm.vue'
+import subtractExpensesForm from '../components/Balance/Expenses/SubtractExpensesForm.vue'
 
 export default {
   components: {
+    pageTitle,
     totalBalance,
+    balanceResetBtn,
     addSalaryForm,
     addExtraIncomeForm,
     subtractExpensesForm
@@ -26,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .form-wrapper {
+  #balance {
     margin-top: 50px;
   }
 </style>

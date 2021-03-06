@@ -1,7 +1,7 @@
 <template lang="pug">
   #add-extra-income-form
     .show-toggle-btn
-      button(@click="showToggle()") 臨時収入を登録
+      salaryFormShowBtn(:show="showForm" @toggle="showForm = $event" :title="btnName")
     
     #popup-menu(v-show="showForm")
       #content
@@ -11,18 +11,26 @@
           .add-btn
             button(@click="addExtraIncome()") 追加
           .close-btn
-            button(@click="showToggle()") 閉じる
+            closeFormBtn(:close="showForm" @toggle="showForm = $event")
 </template>
 
 <script>
 import firebase from '/firebase/firestore.js'
+import salaryFormShowBtn from '../../ShowFormBtn/ShowFormBtn.vue'
+import closeFormBtn from '../../ShowFormBtn/CloseFormBtn.vue'
+
 const db = firebase.firestore()
 const balanceRef = db.collection("Balance").doc("balance")
 export default {
+  components: {
+      salaryFormShowBtn,
+      closeFormBtn
+  },
   data() {
     return {
       newExtraIncome: null,
-      showForm: false
+      showForm: false,
+      btnName: "臨時収入を登録"
     }
   },
   methods: {
@@ -49,15 +57,6 @@ export default {
 
 <style lang="scss" scoped>
   #add-extra-income-form {
-    .show-toggle-btn button{
-      width: 130px;
-      height: 50px;
-      font-size: 16px;
-      margin-bottom: 30px;
-      border: 1px solid black;
-      border-radius: 8px;
-      background-color: white;
-    }
     #popup-menu {
       z-index: 1;
       position: fixed;
@@ -95,15 +94,6 @@ export default {
             background-color: white;
             box-shadow: 2px 2px 2px gray;
         }
-        .close-btn button{
-          margin-top: 50px;
-          width: 200px;
-          height: 30px;
-          border: 1px solid black;
-          border-radius: 3px;
-          background-color: white;
-          box-shadow: 2px 2px 2px gray;
-        }
       }
     } 
   }
@@ -111,14 +101,8 @@ export default {
   @media (min-width: 769px) {
     #add-extra-income-form {
       display: inline-block;
-      .show-toggle-btn button{
-        width: 130px;
-        height: 50px;
-        font-size: 16px;
-        margin: 30px;
-        border: 1px solid black;
-        border-radius: 8px;
-        background-color: white;
+      .show-toggle-btn {
+        margin: 10px;
       }
     }
   }
