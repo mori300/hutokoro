@@ -1,9 +1,9 @@
 <template lang="pug">
   #subtract-expenses-form
     .show-toggle-btn
-      button(@click="showToggle()") 支出を登録
+      salaryFormShowBtn(:show="ExpensesshowForm" @toggle="ExpensesshowForm = $event" :title="btnName")
     
-    #popup-menu(v-show="showForm")
+    #popup-menu(v-show="ExpensesshowForm")
       #content
         h3 支出を追加
         .subtract-expenses-form
@@ -11,19 +11,27 @@
           .subtract-btn
             button(@click="subtractExpenses()") 登録
           .close-btn
-            button(@click="showToggle()") 閉じる
+            closeFormBtn(:close="ExpensesshowForm" @toggle="ExpensesshowForm = $event")
 </template>
 
 <script>
 import firebase from '/firebase/firestore.js'
+import salaryFormShowBtn from '../../ShowFormBtn/ShowFormBtn.vue'
+import closeFormBtn from '../../ShowFormBtn/CloseFormBtn.vue'
+
 const db = firebase.firestore()
 const balanceRef = db.collection("Balance").doc("balance")
 export default {
+  components: {
+      salaryFormShowBtn,
+      closeFormBtn
+  },
   data() {
     return {
       newExpenses: null,
       totalBalance: null,
-      showForm: false
+      ExpensesshowForm: false,
+      btnName: "支出を登録"
     }
   },
   created() {
@@ -55,14 +63,6 @@ export default {
 
 <style lang="scss" scoped>
   #subtract-expenses-form {
-    .show-toggle-btn button{
-      width: 130px;
-      height: 50px;
-      font-size: 16px;
-      border: 1px solid black;
-      border-radius: 8px;
-      background-color: white;
-    }
     #popup-menu {
       z-index: 1;
       position: fixed;
@@ -116,14 +116,8 @@ export default {
 @media (min-width: 769px) {
   #subtract-expenses-form {
     display: inline-block;
-    .show-toggle-btn button{
-      width: 130px;
-      height: 50px;
-      font-size: 16px;
-      margin: 30px;
-      border: 1px solid black;
-      border-radius: 8px;
-      background-color: white;
+    .show-toggle-btn {
+      margin: 10px;
     }
   }
 }
