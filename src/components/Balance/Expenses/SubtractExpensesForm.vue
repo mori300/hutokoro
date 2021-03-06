@@ -1,9 +1,9 @@
 <template lang="pug">
   #subtract-expenses-form
     .show-toggle-btn
-      salaryFormShowBtn(:show="ExpensesshowForm" @toggle="ExpensesshowForm = $event" :title="btnName")
+      salaryFormShowBtn(:show="showForm" @toggle="showForm = $event" :title="btnName")
     
-    #popup-menu(v-show="ExpensesshowForm")
+    #popup-menu(v-show="showForm")
       #content
         h3 支出を追加
         .subtract-expenses-form
@@ -11,7 +11,7 @@
           .subtract-btn
             button(@click="subtractExpenses()") 登録
           .close-btn
-            closeFormBtn(:close="ExpensesshowForm" @toggle="ExpensesshowForm = $event")
+            closeFormBtn(:close="showForm" @toggle="showForm = $event")
 </template>
 
 <script>
@@ -30,7 +30,7 @@ export default {
     return {
       newExpenses: null,
       totalBalance: null,
-      ExpensesshowForm: false,
+      showForm: false,
       btnName: "支出を登録"
     }
   },

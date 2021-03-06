@@ -19,7 +19,7 @@
           return this.show
         },
         set(ChangedToggle) {
-          this.$emit('input', ChangedToggle)
+          this.$emit('toggle', ChangedToggle)
         }
       }
     },
