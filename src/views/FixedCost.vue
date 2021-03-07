@@ -12,7 +12,7 @@
 
 <script>
 import addFixedCostForm from '../components/FixedCost/AddFixedCost/AddFixedCostForm.vue'
-import totalFixedCost from '../components/FixedCost/TotalFixedCost.vue'
+import totalFixedCost from '../components/FixedCost/TotalFixedCost/TotalFixedCost.vue'
 import fixedCostLists from '../components/FixedCost/FixedCostLists/FixedCostLists.vue'
 
 export default {
