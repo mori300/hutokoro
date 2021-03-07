@@ -11,7 +11,6 @@
 
 <script>
 import firebase from '/firebase/firestore.js'
-import closeFormBtn from '../../ShowFormBtn/CloseFormBtn.vue'
 
 const db = firebase.firestore()
 const balanceRef = db.collection("Balance").doc("balance")
@@ -23,9 +22,6 @@ export default {
     close: {
       type: Boolean
     }
-  },
-  components: {
-    closeFormBtn
   },
   data() {
     return {
