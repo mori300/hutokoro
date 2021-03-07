@@ -1,7 +1,7 @@
 <template lang="pug">
   #add-fixedcost-form
     .add-fixedcost-form-btn
-      button(@click="showFormBtn()" class="show-from-btn") 固定費を追加
+      fixedCostFormShowBtn(:show="showForm" @toggle="showForm = $event" :title="btnName") 固定費を追加
 
     #popup-menu(v-show="showForm")
       fixedCostFormPopupMenu(:showForm="showForm" :close="showForm" @toggle="showForm = $event")
@@ -9,14 +9,17 @@
 
 <script>
 import fixedCostFormPopupMenu from './FixedCostFormPopupMenu.vue'
+import fixedCostFormShowBtn from '../../ShowFormBtn/ShowFormBtn.vue'
 
 export default {
   components: {
+    fixedCostFormShowBtn,
     fixedCostFormPopupMenu
   },
   data() {
     return {
       showForm: false,
+      btnName: "固定費を追加"
     }
   },
   methods: {

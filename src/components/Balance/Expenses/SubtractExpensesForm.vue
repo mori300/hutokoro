@@ -3,6 +3,7 @@
     .show-toggle-btn
       salaryFormShowBtn(:show="showForm" @toggle="showForm = $event" :title="btnName")
     
+    
     #popup-menu(v-show="showForm")
       expensesFormPopupMenu(:showForm="showForm" :close="showForm" @toggle="showForm = $event")
 </template>
