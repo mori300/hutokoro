@@ -4,52 +4,22 @@
       salaryFormShowBtn(:show="showForm" @toggle="showForm = $event" :title="btnName")
     
     #popup-menu(v-show="showForm")
-      #content
-        h3 臨時収入を追加
-        .add-extra-income-form
-          input(type="number" placeholder="臨時収入を入力" v-model.number="newExtraIncome")
-          .add-btn
-            button(@click="addExtraIncome()") 追加
-          .close-btn
-            closeFormBtn(:close="showForm" @toggle="showForm = $event")
+      extraIncomeFormPopupMenu(:showForm="showForm" :close="showForm" @toggle="showForm = $event")
 </template>
 
 <script>
-import firebase from '/firebase/firestore.js'
 import salaryFormShowBtn from '../../ShowFormBtn/ShowFormBtn.vue'
-import closeFormBtn from '../../ShowFormBtn/CloseFormBtn.vue'
+import extraIncomeFormPopupMenu from './ExtraIncomeFormPopupMenu.vue'
 
-const db = firebase.firestore()
-const balanceRef = db.collection("Balance").doc("balance")
 export default {
   components: {
       salaryFormShowBtn,
-      closeFormBtn
+      extraIncomeFormPopupMenu
   },
   data() {
     return {
-      newExtraIncome: null,
       showForm: false,
       btnName: "臨時収入を登録"
-    }
-  },
-  methods: {
-    showToggle() {
-      this.showForm = !this.showForm
-    },
-    addExtraIncome() {
-      if ( this.newExtraIncome === null ) { 
-        return alert("金額を入力してください")
-      }
-      
-      balanceRef.update({
-        totalBalance: firebase.firestore.FieldValue.increment(this.newExtraIncome)
-      })
-      .then(docRef => {
-        alert("追加しました")
-        this.showForm = false
-        return this.newExtraIncome = null
-      })
     }
   }
 }
@@ -68,33 +38,6 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      #content {
-        z-index: 2;
-        width: 70%;
-        padding: 30px;
-        background: #FFF;
-        border-radius: 10px;
-        .add-extra-income-form {
-          input {
-            width: 200px;
-            height: 25px;
-            padding: 5px;
-            margin-right: 10px;
-            border-radius: 5px;
-            border: 1px solid black;
-            background-color: #FFF;
-          }
-        }
-        .add-btn button{
-          margin-top: 10px;
-            width: 100px;
-            height: 40px;
-            border: 1px solid black;
-            border-radius: 3px;
-            background-color: white;
-            box-shadow: 2px 2px 2px gray;
-        }
-      }
     } 
   }
 

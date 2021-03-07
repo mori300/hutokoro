@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import addFixedCostForm from '../components/FixedCost/AddFixedCostForm.vue'
-import totalFixedCost from '../components/FixedCost/TotalFixedCost.vue'
-import fixedCostLists from '../components/FixedCost//FixedCostLists.vue'
+import addFixedCostForm from '../components/FixedCost/AddFixedCost/AddFixedCostForm.vue'
+import totalFixedCost from '../components/FixedCost/TotalFixedCost/TotalFixedCost.vue'
+import fixedCostLists from '../components/FixedCost/FixedCostLists/FixedCostLists.vue'
 
 export default {
   components: {
