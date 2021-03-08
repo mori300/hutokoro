@@ -3,8 +3,18 @@
     #nav
       router-link(to="/") ホーム |
       router-link(to="/fixedcost")  固定費
-    router-view
+      signOutBtn  
+      router-view
 </template>
+
+<script>
+import signOutBtn from './components/SignOut/SignOutBtn.vue'
+export default {
+  components: {
+    signOutBtn
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
