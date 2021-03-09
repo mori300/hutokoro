@@ -10,6 +10,7 @@
 <script>
 import firebase from '/firebase/firestore.js'
 
+const db = firebase.firestore()
 export default {
   data() {
     return {
@@ -21,8 +22,13 @@ export default {
     signup() {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
       .then(user => {
+        const userData = {
+          email: firebase.auth().currentUser.email,
+          userId: firebase.auth().currentUser.uid
+        }
+        db.collection("users").add(userData)
         alert("ユーザー登録が完了しました、サインインして下さい")
-        this.$router.push('/signin')
+        this.$router.push('/')
       })
       .catch(error => {
         alert("ユーザー登録に失敗しました")
