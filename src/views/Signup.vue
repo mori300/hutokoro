@@ -24,7 +24,8 @@ export default {
       .then(user => {
         const userData = {
           email: firebase.auth().currentUser.email,
-          userId: firebase.auth().currentUser.uid
+          userId: firebase.auth().currentUser.uid,
+          totalBalnce: 0
         }
         db.collection("users").add(userData)
         alert("ユーザー登録が完了しました、サインインして下さい")
