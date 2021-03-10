@@ -24,6 +24,7 @@ export default {
     return {
       newFixedCostName: '',
       newFixedCost: null,
+      currentUser: {}
     }
   },
   computed: {
@@ -35,6 +36,15 @@ export default {
         this.$emit('toggle', ChangedToggle)
       }
     }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        db.collection("users").doc(user.uid).onSnapshot(doc => {
+          this.currentUser = doc.data()
+        })
+      }
+    })
   },
   methods: {
     addFixedCost() {
@@ -49,16 +59,18 @@ export default {
           return alert("固定費名を入力してください")
       }
 
-      db.collection("FixedCost").add({
-        name: this.newFixedCostName,
-        amount: this.newFixedCost,
+      db.collection("users").doc(this.currentUser.userId)
+      .collection("fixedCost")
+      .add({
+        fixedCostName: this.newFixedCostName,
+        fixedCostAmount: this.newFixedCost,
         editToggle: false
       })
-      .then(docRef => {
-        alert("固定費を追加しました")
+      .then(userRef => {
+        console.log("Add fixedCost")
       })
       .catch(error => {
-        alert("追加に失敗しました")
+        console.log("Not fixedCost")
       })
       this.newFixedCostName = ''
       this.newFixedCost = null

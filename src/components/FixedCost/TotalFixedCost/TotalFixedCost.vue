@@ -8,23 +8,36 @@
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
-const fixedCostRef = db.collection("FixedCost")
 export default {
   data() {
     return {
       totalFixedCost: null,
+      currentUser: {}
     }
   },
   created() {
-    fixedCostRef.get().then(querySnapshot => {
-      const val = []
-      querySnapshot.forEach(doc => {
-        val[doc.data().amount] = doc.data()
-      })
-      const totalVal = val.reduce((sum, val) => {
-        return sum + val.amount
-      }, 0)
-      this.totalFixedCost += totalVal
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        db.collection("users")
+        .doc(user.uid)
+        .collection("fixedCost")
+        .get()
+        .then(querySnapshot => {
+          const val = []
+          querySnapshot.forEach(doc => {
+            val[doc.data().fixedCostAmount] = doc.data()
+          })
+          const totalVal = val.reduce((sum, val) => {
+            return sum + val.fixedCostAmount
+          }, 0)
+          this.totalFixedCost += totalVal
+          console.log(this.totalFixedCost)
+        })
+        .catch(error => {
+          console.log("Don't search fixedCost")
+          this.totalFixedCost = 0
+        })
+      }
     })
   }
 }
