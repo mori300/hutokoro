@@ -13,7 +13,6 @@
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
-const balanceRef = db.collection("Balance").doc("balance")
 export default {
   props: {
     showForm: {
@@ -26,6 +25,7 @@ export default {
   data() {
     return {
       newExtraIncome: null,
+      currentUser: {}
     }
   },
   computed: {
@@ -38,18 +38,33 @@ export default {
       }
     }
   },
+  created() {
+    // auth().currentUser.uid ではリロード時にエラーがでてしまう為、onAuthStateChangedを使う
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        db.collection("users").doc(user.uid).onSnapshot(doc => {
+          this.currentUser = doc.data()
+        })
+      }
+    })
+  },
   methods: {
     addExtraIncome() {
       if ( this.newExtraIncome === null ) { 
-        return alert("金額を入力してください")
-      }
-      
-      balanceRef.update({
-        totalBalance: firebase.firestore.FieldValue.increment(this.newExtraIncome)
-      })
-      .then(docRef => {
-        alert("追加しました")
-      })
+          return alert("金額を入力してください")
+        }
+        
+        db.collection("users")
+        .doc(this.currentUser.userId)
+        .update({
+          totalBalance: firebase.firestore.FieldValue.increment(this.newExtraIncome)
+        })
+        .then(userRef => {
+          console.log("Add extra income")
+        })
+        .catch(error => {
+          console.log("Not extra income")
+        })
       this.newExtraIncome = null
       this.$emit('toggle', this.toggleWatch = !this.toggleWatch)
     },
