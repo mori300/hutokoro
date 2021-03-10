@@ -18,28 +18,26 @@ export default {
   created() {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
-        db.collection("users").doc(user.uid).onSnapshot(doc => {
-          this.currentUser = doc.data()
+        db.collection("users")
+        .doc(user.uid)
+        .collection("fixedCost")
+        .get()
+        .then(querySnapshot => {
+          const val = []
+          querySnapshot.forEach(doc => {
+            val[doc.data().fixedCostAmount] = doc.data()
+          })
+          const totalVal = val.reduce((sum, val) => {
+            return sum + val.fixedCostAmount
+          }, 0)
+          this.totalFixedCost += totalVal
+          console.log(this.totalFixedCost)
+        })
+        .catch(error => {
+          console.log("Don't search fixedCost")
+          this.totalFixedCost = 0
         })
       }
-    })
-    db.collection("users")
-    .doc(this.currentUser.userId)
-    .get()
-    .then(querySnapshot => {
-      const val = []
-      querySnapshot.forEach(doc => {
-        val[doc.data().amount] = doc.data()
-      })
-      const totalVal = val.reduce((sum, val) => {
-        return sum + val.amount
-      }, 0)
-      this.totalFixedCost += totalVal
-      console.log(this.totalFixedCost)
-    })
-    .catch(error => {
-      console.log("Don't search fixedCost")
-      this.totalFixedCost = 0
     })
   }
 }
