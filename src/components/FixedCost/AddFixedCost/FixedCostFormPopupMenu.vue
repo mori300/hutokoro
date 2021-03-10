@@ -59,9 +59,9 @@ export default {
           return alert("固定費名を入力してください")
       }
 
-      db.collection("fixedCost")
+      db.collection("users").doc(this.currentUser.userId)
+      .collection("fixedCost")
       .add({
-        userId: this.currentUser.userId,
         fixedCostName: this.newFixedCostName,
         fixedCostAmount: this.newFixedCost,
         editToggle: false
