@@ -13,27 +13,27 @@ export default {
     }
   },
   beforeCreate() {
-    showToggleChange: {
-      firebase.auth().onAuthStateChanged(user => {
-        if(user) {
-          this.show = true
-        } else {
-          this.show = false
-        }
-      })
-    }
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        this.show = true
+      } else {
+        this.show = false
+      }
+    })
   },
   methods: {
     signOut() {
       firebase.auth().onAuthStateChanged(user => {
-        firebase.auth().signOut()
-        .then(() => {
-          alert("サインアウトしました")
-          this.$router.push("/signin")
-        })
-        .catch(error=> {
-          alert("サインアウトできませんでした")
-        })
+        if(user) {
+          firebase.auth().signOut()
+          .then(() => {
+            console.log("Success")
+            this.$router.push("/signin")
+          })
+          .catch(error => {
+            console.log("Not SignOut")
+          })
+        }
       })
     }
   }

@@ -25,9 +25,9 @@ export default {
         const userData = {
           email: firebase.auth().currentUser.email,
           userId: firebase.auth().currentUser.uid,
-          totalBalnce: 0
+          totalBalance: 0
         }
-        db.collection("users").add(userData)
+        db.collection("users").doc(firebase.auth().currentUser.uid).set(userData)
         alert("ユーザー登録が完了しました、サインインして下さい")
         this.$router.push('/')
       })

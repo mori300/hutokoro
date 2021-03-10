@@ -1,26 +1,27 @@
 <template lang="pug">
   #total-balance
-    .total-balance(v-if="this.totalBalance.totalBalance >= 0")
-      p ¥{{ this.totalBalance.totalBalance }}
-    .total-balance(v-else v-bind:style="{color: totalBalanceColor}")
-      p ¥{{ this.totalBalance.totalBalance }}
+    .total-balance
+      p ¥{{ this.currentUser.totalBalance }}
 </template>
 
 <script>
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
-const balanceRef = db.collection("Balance").doc("balance")
 export default {
   data() {
     return {
-      totalBalance: {},
-      totalBalanceColor: "red"
+      currentUser: {}
     }
   },
   created() {
-    balanceRef.onSnapshot(doc => {
-      this.totalBalance = doc.data()
+    // auth().currentUser.uid ではリロード時にエラーがでてしまう為、onAuthStateChangedを使う
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        db.collection("users").doc(user.uid).onSnapshot(doc => {
+          this.currentUser = doc.data()
+        })
+      }
     })
   }
 }
