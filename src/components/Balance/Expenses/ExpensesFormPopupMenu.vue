@@ -13,7 +13,6 @@
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
-const balanceRef = db.collection("Balance").doc("balance")
 export default {
   props: {
     showForm: {
@@ -27,12 +26,8 @@ export default {
     return {
       newExpenses: null,
       totalBalance: null,
+      currentUser: {}
     }
-  },
-  created() {
-    balanceRef.onSnapshot(doc => {
-      this.totalBalance = doc.data()
-    })
   },
   computed: {
     toggleWatch: {
@@ -44,17 +39,31 @@ export default {
       }
     }
   },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        db.collection("users").doc(user.uid).onSnapshot(doc => {
+          this.currentUser = doc.data()
+        })
+      }
+    })
+  },
   methods: {
     subtractExpenses() {
       if ( this.newExpenses === null ) { 
         return alert("金額を入力してください")
       }
       
-      balanceRef.update({
+      db.collection("users")
+      .doc(this.currentUser.userId)
+      .update({
         totalBalance: firebase.firestore.FieldValue.increment(-this.newExpenses)
       })
-      .then(docRef => {
-        alert("登録しました")
+      .then(userRef => {
+        console.log("Subtract Expenses")
+      })
+      .catch(error => {
+        console.log("Not Subtract Expenses")
       })
       this.newExpenses = null
       this.$emit('toggle', this.toggleWatch = !this.toggleWatch)
