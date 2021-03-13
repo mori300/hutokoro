@@ -59,12 +59,14 @@ export default {
           return alert("固定費名を入力してください")
       }
 
-      db.collection("users").doc(this.currentUser.userId)
-      .collection("fixedCost")
-      .add({
-        fixedCostName: this.newFixedCostName,
-        fixedCostAmount: this.newFixedCost,
-        editToggle: false
+      db.collection("users")
+      .doc(this.currentUser.userId)
+      .update({
+        fixedCost: firebase.firestore.FieldValue.arrayUnion({
+          fixedCostName: this.newFixedCostName,
+          fixedCostAmount: this.newFixedCost,
+          editBtnToggle: false,
+        })
       })
       .then(userRef => {
         console.log("Add fixedCost")
