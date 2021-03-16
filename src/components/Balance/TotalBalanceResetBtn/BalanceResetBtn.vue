@@ -48,10 +48,23 @@ export default {
     margin-bottom: 50px;
     button {
       height: 30px;
-      width: 100px;
+      width: 300px;
       border: 1px solid black;
       border-radius: 5px;
       background-color: #FFF;
+    }
+  }
+
+  @media(max-width: 768px) {
+    #balance-reset-btn {
+      margin-bottom: 50px;
+      button {
+        height: 30px;
+        width: 80%;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: #FFF;
+      }
     }
   }
 </style>

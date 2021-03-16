@@ -32,9 +32,24 @@
 </script>
 
 <style lang="scss" scoped>
+@media (max-width: 768px) {
   #salary-form-show-btn {
     button {
-      width: 130px;
+      width: 70%;
+      height: 50px;
+      font-size: 16px;
+      margin-bottom: 60px;
+      border: 1px solid black;
+      border-radius: 8px;
+      background-color: white;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  #salary-form-show-btn {
+    button {
+      width: 300px;
       height: 50px;
       font-size: 16px;
       margin-bottom: 30px;
@@ -43,4 +58,5 @@
       background-color: white;
     }
   }
+}
 </style>
