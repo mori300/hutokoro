@@ -7,7 +7,7 @@
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
-const balanceRef = db.collection("Balance").doc("balance")
+const usersRef = db.collection("users")
 export default {
   data() {
     return {
@@ -15,20 +15,28 @@ export default {
     }
   },
   created() {
-    balanceRef.onSnapshot(doc => {
-      this.totalBalance = doc.data()
+    firebase.auth()
+    .onAuthStateChanged(user => {
+      if(user) {
+        usersRef
+        .doc(user.uid)
+        .get(doc => {
+          this.totalBalance = doc.data().totalBalance
+        })
+      }
     })
   },
   methods: {
     balanceResetBtn() {
-      balanceRef.update({
-        totalBalance: 0
-      })
-      .then(balanceRef => {
-        alert("残高をリセットしました")
-      })
-      .catch(error => {
-        alert("リセットができませんでした")
+      firebase.auth()
+      .onAuthStateChanged(user => {
+        if(user) {
+          usersRef
+          .doc(user.uid)
+          .update({
+            totalBalance: 0
+          })
+        }
       })
     }
   }
