@@ -2,7 +2,7 @@
   #content
     h3 給料を追加
     p 固定費の
-      span(class="fixed-cost")  ¥{{ this.totalFixedCost }}
+      span(class="fixed-cost")  ¥{{ totalFixedCost }}
       | 
       br
       | 差し引かれます
@@ -18,8 +18,7 @@
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
-const balanceRef = db.collection("Balance").doc("balance")
-const fixedCostRef = db.collection("FixedCost")
+const usersRef = db.collection("users")
 export default {
   props: {
     showForm: {
@@ -33,18 +32,24 @@ export default {
     return {
       newIncome: null,
       totalFixedCost: null,
+      fixedCostData: []
     }
   },
   created() {
-    fixedCostRef.get().then(querySnapshot => {
-      const val = []
-      querySnapshot.forEach(doc => {
-        val[doc.data().amount] = doc.data()
-      })
-      const totalVal = val.reduce((sum, val) => {
-        return sum + val.amount
-      }, 0)
-      this.totalFixedCost += totalVal
+    firebase.auth()
+    .onAuthStateChanged(user => {
+      if(user) {
+        db.collection("users")
+        .doc(user.uid)
+        .onSnapshot(doc => {
+          this.fixedCostData = doc.data().fixedCost
+          const fixedCostData = this.fixedCostData
+          const totalFixedCostAmount = fixedCostData.reduce((sum, amount) => {
+            return sum + amount.fixedCostAmount
+          },0)
+          this.totalFixedCost = totalFixedCostAmount
+        })
+      }
     })
   },
   computed: {
@@ -62,13 +67,16 @@ export default {
       if ( this.newIncome === null ) { 
         return alert("金額を入力してください")
       }
-      
       const sum = this.newIncome -= this.totalFixedCost
-      balanceRef.update({
-        totalBalance: firebase.firestore.FieldValue.increment(sum)
-      })
-      .then(docRef => {
-        alert("追加しました")
+      firebase.auth()
+      .onAuthStateChanged(user => {
+        if(user) {
+          usersRef.
+          doc(user.uid)
+          .update({
+            totalBalance: firebase.firestore.FieldValue.increment(sum)
+          })
+        }
       })
       this.newIncome = null
       this.$emit('toggle', this.toggleWatch = !this.toggleWatch)

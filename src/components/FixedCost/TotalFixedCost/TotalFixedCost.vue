@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       totalFixedCost: null,
-      currentUser: {}
+      fixedCostData: []
     }
   },
   created() {
@@ -20,22 +20,13 @@ export default {
       if(user) {
         db.collection("users")
         .doc(user.uid)
-        .collection("fixedCost")
-        .get()
-        .then(querySnapshot => {
-          const val = []
-          querySnapshot.forEach(doc => {
-            val[doc.data().fixedCostAmount] = doc.data()
-          })
-          const totalVal = val.reduce((sum, val) => {
-            return sum + val.fixedCostAmount
-          }, 0)
-          this.totalFixedCost += totalVal
-          console.log(this.totalFixedCost)
-        })
-        .catch(error => {
-          console.log("Don't search fixedCost")
-          this.totalFixedCost = 0
+        .onSnapshot(doc => {
+          this.fixedCostData = doc.data().fixedCost
+          const fixedCostData = this.fixedCostData
+          const totalFixedCostAmount = fixedCostData.reduce((sum, amount) => {
+            return sum + amount.fixedCostAmount
+          },0)
+          this.totalFixedCost = totalFixedCostAmount
         })
       }
     })
