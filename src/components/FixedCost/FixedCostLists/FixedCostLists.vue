@@ -1,61 +1,74 @@
 <template lang="pug">
   #fixedcost-lists
     ul(v-for="(fixedCostList, key) in fixedCostLists" :key="key")
-      li(class="list-name") {{ fixedCostList.name }}
-      li(class="list-amount") ¥{{ fixedCostList.amount }}
+      li(class="list-name") {{ fixedCostList.fixedCostName }}
+      li(class="list-amount") ¥{{ fixedCostList.fixedCostAmount }}
       .btn-wrapper
         .edit-btn
-          button(@click="editToggleBtn(fixedCostList, key)" v-model="fixedCostList.editToggle") 編集
-      #popup-menu(v-show="fixedCostList.editToggle")
+          button(@click="editToggleBtn(fixedCostList)" v-model="fixedCostList.editBtnToggle") 編集
+      #popup-menu(v-show="fixedCostList.editBtnToggle")
         #content
-          li(class="list-name") {{ fixedCostList.name }}
-          li(class="list-amount") ¥{{ fixedCostList.amount }}
+          li(class="list-name") {{ fixedCostList.fixedCostName }}
+          li(class="list-amount") ¥{{ fixedCostList.fixedCostAmount }}
           .delete-btn(class="delete-btn")
             button(@click="deleteFixedCost(key)") 削除
           .edit-form
             input(type="text" placeholder="固定費名を入力" v-model="editFixedCostName")
             input(type="number" placeholder="金額を入力" v-model.number="editFixedCost")
             .update-btn
-              button(class="update-btn" @click="updateFixedCost(fixedCostList, key)") 更新
+              button(class="update-btn" @click="updateFixedCost(key)") 更新
             .close-btn
-              button(@click="editToggleBtn(fixedCostList, key)" v-model="fixedCostList.editToggle") 閉じる
+              button(@click="editToggleBtn(fixedCostList)" v-model="fixedCostList.editBtnToggle") 閉じる
 </template>
 
 <script>
 import firebase from '/firebase/firestore.js'
 
 const db = firebase.firestore()
-const fixedCostRef = db.collection("FixedCost")
-
+const usersRef = db.collection("users")
 export default {
   data() {
     return {
       fixedCostLists: [],
       editFixedCostName: '',
-      editFixedCost: null
+      editFixedCost: null,
+      currentUser: []
     }
   },
   created() {
-    fixedCostRef.get().then(querySnapshot => {
-      const obj = {}
-      querySnapshot.forEach(doc => {
-        obj[doc.id] = doc.data()
-      })
-      this.fixedCostLists = obj
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        usersRef
+        .doc(user.uid)
+        .onSnapshot(doc => {
+          this.fixedCostLists = doc.data().fixedCost
+          this.currentUser = doc.data()
+          console.log(this.currentUser.userId)
+        })
+      }
     })
   },
   methods: {
     deleteFixedCost(key) {
-      fixedCostRef.doc(key).delete()
-      .then(docRef => {
-        alert("削除しました")
+      usersRef
+      .doc(this.currentUser.userId)
+      .get()
+      .then(doc => {
+        usersRef
+        .doc(this.currentUser.userId)
+        .update({
+          fixedCost: firebase.firestore.FieldValue.arrayRemove(doc.data().fixedCost[key])
+        })
+        console.log(doc.data().fixedCost[key])
+      })
+      .catch(error => {
+        console.log("Don't delete fixedCost")
       })
     },
-    editToggleBtn(fixedCostList, key) {
-      fixedCostList.editToggle = !fixedCostList.editToggle
-      fixedCostRef.doc(key).update(fixedCostList)
+    editToggleBtn(fixedCostList) {
+      fixedCostList.editBtnToggle = !fixedCostList.editBtnToggle
     },
-    updateFixedCost(fixedCostList, key) {
+    updateFixedCost(key) {
       if ( 
         this.editFixedCostName === '' &&
         this.editFixedCost === null
@@ -66,19 +79,31 @@ export default {
       } else if ( this.editFixedCostName === '') {
           return alert("固定費名を入力してください")
       }
+      
+      usersRef
+      .doc(this.currentUser.userId)
+      .get()
+      .then(doc => {
+        usersRef
+        .doc(this.currentUser.userId)
+        .update({
+          fixedCost: firebase.firestore.FieldValue.arrayRemove(doc.data().fixedCost[key])
+        })
 
-      fixedCostRef.doc(key).update({
-        name: this.editFixedCostName,
-        amount: this.editFixedCost
-      })
-      .then(fixedCostRef => {
-        alert("固定費を編集しました")
+        usersRef
+        .doc(this.currentUser.userId)
+        .update({
+          fixedCost: firebase.firestore.FieldValue.arrayUnion({
+            fixedCostName: this.editFixedCostName,
+            fixedCostAmount: this.editFixedCost,
+            editBtnToggle: false
+          })
+        })
         this.editFixedCostName = ''
         this.editFixedCost = null
-        this.editToggleBtn(fixedCostList, key)
       })
       .catch(error => {
-        alert("編集に失敗しました")
+        console.log("Don't delete fixedCost")
       })
     }
   }
@@ -89,8 +114,6 @@ export default {
   #fixedcost-lists {
     width: 70%;
     margin: auto;
-    border: 1px solid black;
-    border-radius: 8px;
     ul {
       padding: 0px;
       list-style: none;
